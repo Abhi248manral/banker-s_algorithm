@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Interactive Banker's Algorithm simulator for deadlock avoidance with banking analogy">
+  <title>Banker's Algorithm - Deadlock Avoidance</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Skip Links -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  
+  <!-- Header Navigation -->
+  <header class="header" role="banner">
+    <div class="header-container">
+      <div class="header-left">
+        <h1 class="logo" data-i18n="app_title">Banker's Algorithm</h1>
+      </div>
+      <nav class="header-nav" role="navigation" aria-label="Main navigation">
+        <button class="nav-btn" data-page="hero" data-i18n="nav_home">Home</button>
+      </nav>
+      <div class="header-right">
+        <span class="user-email" id="user-email" style="display: none; margin-right: 1rem; color: var(--text-secondary);"></span>
+        <button class="btn btn-sm" id="logout-btn" style="display: none;" data-i18n="logout">Logout</button>
+        <button class="icon-btn" id="settings-btn" aria-label="Settings" title="Settings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M12 1v6m0 6v6m-9-9h6m6 0h6"></path>
+          </svg>
+        </button>
+        <button class="icon-btn" id="theme-toggle" aria-label="Toggle theme" title="Toggle theme">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        </button>
+        <select id="language-select" aria-label="Select language" class="language-select">
+          <option value="en">English</option>
+          <option value="hi">हिन्दी</option>
+          <option value="es">Español</option>
+          <option value="ar">العربية</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main-content" class="main-content">
+    
+    <!-- Login Page -->
+    <section id="login-page" class="page active">
+      <div class="login-container">
+        <div class="login-background"></div>
+        <div class="login-card">
+          <div class="login-header">
+            <h1 class="login-logo">🏦 Banker's Algorithm</h1>
+            <h2 class="login-title" data-i18n="login_welcome">Welcome Back</h2>
+            <p class="login-subtitle" data-i18n="login_subtitle">Sign in to access the Banker's Algorithm Simulator</p>
+          </div>
+          <form class="login-form" id="login-form">
+            <div class="form-group">
+              <label for="login-email" data-i18n="email">Email</label>
+              <input type="email" id="login-email" class="form-control" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+              <label for="login-password" data-i18n="password">Password</label>
+              <div class="password-wrapper">
+                <input type="password" id="login-password" class="form-control" placeholder="Enter your password" required minlength="6">
+                <button type="button" class="password-toggle" id="password-toggle" aria-label="Toggle password visibility">👁</button>
+              </div>
+            </div>
+            <div class="form-group-inline">
+              <label class="checkbox-label">
+                <input type="checkbox" id="remember-me">
+                <span data-i18n="remember_me">Remember me</span>
+              </label>
+              <a href="#" class="forgot-password" data-i18n="forgot_password">Forgot Password?</a>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-full-width" id="sign-in-btn">
+              <span data-i18n="sign_in">Sign In</span>
+            </button>
+            <div class="oauth-divider">
+              <span data-i18n="or_continue">Or continue with</span>
+            </div>
+            <div class="oauth-buttons">
+              <button type="button" class="btn-oauth btn-google">
+                <span class="oauth-icon">G</span>
+                <span>Google</span>
+              </button>
+              <button type="button" class="btn-oauth btn-github">
+                <span class="oauth-icon">⚡</span>
+                <span>GitHub</span>
+              </button>
+            </div>
+            <p class="signup-link">
+              <span data-i18n="no_account">Don't have an account?</span>
+              <a href="#" data-i18n="sign_up">Sign Up</a>
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Hero Page -->
+    <section id="hero-page" class="page">
+      <div class="particles-bg" id="particles"></div>
+      <div class="hero-container">
+        <div class="window-chrome">
+          <div class="window-header">
+            <div class="window-controls">
+              <span class="control-btn close"></span>
+              <span class="control-btn minimize"></span>
+              <span class="control-btn maximize"></span>
+            </div>
+            <div class="window-title" data-i18n="hero_window_title">Banker's Algorithm Simulator</div>
+          </div>
+          <div class="window-content">
+            <h1 class="hero-title" data-i18n="hero_title">Banker's Algorithm</h1>
+            <p class="hero-subtitle" data-i18n="hero_subtitle">Deadlock Avoidance Made Simple</p>
+            <p class="hero-description" data-i18n="hero_description">An interactive visualization of the classic operating system algorithm that prevents deadlock by ensuring safe resource allocation.</p>
+            <p class="welcome-message" id="welcome-message" style="display: none; font-size: 1.2rem; color: var(--success); margin: 1rem 0;"></p>
+            <div class="hero-actions">
+              <button class="btn btn-primary btn-lg" data-modal="simulator" data-i18n="run_check">Run Safety Check</button>
+              <button class="btn btn-secondary btn-lg" data-modal="theory" data-i18n="learn_more">Learn More</button>
+            </div>
+            <div class="quick-links">
+              <div class="quick-card" data-modal="simulator">
+                <div class="quick-icon">🖥️</div>
+                <h3 data-i18n="simulator">Simulator</h3>
+                <p data-i18n="simulator_desc">Interactive matrix editor &amp; safety checker</p>
+              </div>
+              <div class="quick-card" data-modal="banking">
+                <div class="quick-icon">🏦</div>
+                <h3 data-i18n="banking">Banking</h3>
+                <p data-i18n="banking_desc">Real-world loan approval analogy</p>
+              </div>
+              <div class="quick-card" data-modal="theory">
+                <div class="quick-icon">📚</div>
+                <h3 data-i18n="theory">Theory</h3>
+                <p data-i18n="theory_desc">Learn the algorithm step-by-step</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Theory Page -->
+    <section id="theory-page" class="page">
+      <div class="page-container">
+        <div class="page-header">
+          <h1 data-i18n="theory_title">Understanding Banker's Algorithm</h1>
+          <div class="progress-bar" id="scroll-progress"></div>
+        </div>
+        
+        <div class="theory-content">
+          <article class="theory-section" id="what-is-deadlock">
+            <h2 data-i18n="deadlock_title">What is Deadlock?</h2>
+            <p data-i18n="deadlock_text">Deadlock is a situation where a set of processes are blocked because each process is holding a resource and waiting for another resource acquired by some other process. In operating systems, this creates a circular wait condition.</p>
+            <div class="illustration deadlock-diagram">
+              <div class="process-circle">P1</div>
+              <div class="arrow">→</div>
+              <div class="resource-circle">R2</div>
+              <div class="arrow">→</div>
+              <div class="process-circle">P2</div>
+              <div class="arrow">→</div>
+              <div class="resource-circle">R1</div>
+              <div class="arrow">→</div>
+            </div>
+          </article>
+
+          <article class="theory-section" id="banker-algorithm">
+            <h2 data-i18n="algorithm_title">The Banker's Algorithm</h2>
+            <p data-i18n="algorithm_text">Developed by Edsger Dijkstra, the Banker's Algorithm is a deadlock avoidance algorithm that tests for safety by simulating the allocation of predetermined maximum possible amounts of all resources, and then makes an "s-state" check to test for possible activities, before deciding whether allocation should be allowed to continue.</p>
+          </article>
+
+          <article class="theory-section" id="data-structures">
+            <h2 data-i18n="structures_title">Data Structures</h2>
+            <div class="matrix-explanation">
+              <div class="matrix-card">
+                <h3>Available</h3>
+                <p data-i18n="available_desc">Vector of length m indicating the number of available resources of each type.</p>
+                <code>Available[j] = k means k instances of resource type R<sub>j</sub> available</code>
+              </div>
+              <div class="matrix-card">
+                <h3>Max</h3>
+                <p data-i18n="max_desc">n × m matrix defining the maximum demand of each process.</p>
+                <code>Max[i,j] = k means process P<sub>i</sub> may request at most k instances of resource type R<sub>j</sub></code>
+              </div>
+              <div class="matrix-card">
+                <h3>Allocation</h3>
+                <p data-i18n="allocation_desc">n × m matrix defining the number of resources currently allocated to each process.</p>
+                <code>Allocation[i,j] = k means P<sub>i</sub> is currently allocated k instances of R<sub>j</sub></code>
+              </div>
+              <div class="matrix-card">
+                <h3>Need</h3>
+                <p data-i18n="need_desc">n × m matrix indicating the remaining resource need of each process.</p>
+                <code>Need[i,j] = Max[i,j] - Allocation[i,j]</code>
+              </div>
+            </div>
+          </article>
+
+          <article class="theory-section" id="safety-algorithm">
+            <h2 data-i18n="safety_title">Safety Algorithm</h2>
+            <div class="algorithm-steps">
+              <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h4>Initialize</h4>
+                  <p>Work = Available<br>Finish[i] = false for i = 0, 1, ..., n-1</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h4>Find Process</h4>
+                  <p>Find an i such that:<br>• Finish[i] == false<br>• Need<sub>i</sub> ≤ Work</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h4>Update</h4>
+                  <p>Work = Work + Allocation<sub>i</sub><br>Finish[i] = true<br>Go to step 2</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                  <h4>Check Safety</h4>
+                  <p>If Finish[i] == true for all i, then the system is in a safe state.</p>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="theory-section" id="request-algorithm">
+            <h2 data-i18n="request_title">Resource Request Algorithm</h2>
+            <p data-i18n="request_intro">When process P<sub>i</sub> requests resources, the following steps are taken:</p>
+            <ol class="request-steps">
+              <li><strong>Validate:</strong> If Request<sub>i</sub> ≤ Need<sub>i</sub>, go to step 2. Otherwise, raise error (exceeded maximum claim).</li>
+              <li><strong>Check Availability:</strong> If Request<sub>i</sub> ≤ Available, go to step 3. Otherwise, P<sub>i</sub> must wait.</li>
+              <li><strong>Pretend Allocation:</strong> Modify state as if request granted:<br>
+                <code>Available = Available - Request<sub>i</sub><br>
+                Allocation<sub>i</sub> = Allocation<sub>i</sub> + Request<sub>i</sub><br>
+                Need<sub>i</sub> = Need<sub>i</sub> - Request<sub>i</sub></code>
+              </li>
+              <li><strong>Safety Check:</strong> Run safety algorithm. If safe, commit the allocation. If unsafe, rollback and make P<sub>i</sub> wait.</li>
+            </ol>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Simulator Page -->
+    <section id="simulator-page" class="page">
+      <div class="page-container">
+        <div class="page-header">
+          <h1 data-i18n="simulator_title">Interactive Simulator</h1>
+          <div class="demo-presets">
+            <label data-i18n="load_preset">Load Preset:</label>
+            <button class="btn btn-sm" data-preset="0" data-i18n="preset_safe">Safe State</button>
+            <button class="btn btn-sm" data-preset="1" data-i18n="preset_unsafe">Unsafe State</button>
+            <button class="btn btn-sm" data-preset="2" data-i18n="preset_banking">Banking</button>
+          </div>
+        </div>
+
+        <div class="simulator-tabs">
+          <button class="tab-btn active" data-tab="matrices" data-i18n="tab_matrices">Matrices Editor</button>
+          <button class="tab-btn" data-tab="safety" data-i18n="tab_safety">Safety Check</button>
+          <button class="tab-btn" data-tab="request" data-i18n="tab_request">Request Simulation</button>
+        </div>
+
+        <!-- Matrices Tab -->
+        <div class="tab-content active" id="matrices-tab">
+          <div class="matrix-controls">
+            <div class="form-group">
+              <label for="num-processes" data-i18n="num_processes">Number of Processes:</label>
+              <input type="number" id="num-processes" min="1" max="10" value="5" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="num-resources" data-i18n="num_resources">Number of Resources:</label>
+              <input type="number" id="num-resources" min="1" max="10" value="3" class="form-control">
+            </div>
+            <button class="btn btn-primary" id="generate-matrices" data-i18n="generate">Generate Matrices</button>
+          </div>
+
+          <div class="matrices-container" id="matrices-display">
+            <!-- Matrices will be generated dynamically -->
+          </div>
+
+          <div class="matrix-actions">
+            <button class="btn btn-secondary" id="export-json" data-i18n="export_json">Export JSON</button>
+            <button class="btn btn-secondary" id="export-csv" data-i18n="export_csv">Export CSV</button>
+            <button class="btn btn-secondary" id="import-json" data-i18n="import_json">Import JSON</button>
+            <input type="file" id="file-input" accept=".json" style="display: none;">
+          </div>
+        </div>
+
+        <!-- Safety Check Tab -->
+        <div class="tab-content" id="safety-tab">
+          <div class="safety-controls">
+            <button class="btn btn-primary btn-lg" id="run-safety-check" data-i18n="check_safety">Check if System is Safe</button>
+            <label class="checkbox-label">
+              <input type="checkbox" id="step-by-step">
+              <span data-i18n="step_mode">Step-by-Step Mode</span>
+            </label>
+          </div>
+          <div class="safety-visualization" id="safety-viz">
+            <div class="viz-placeholder" data-i18n="run_check_message">Click "Check if System is Safe" to run the algorithm</div>
+          </div>
+          <div class="result-panel" id="safety-result" style="display: none;">
+            <!-- Result will be displayed here -->
+          </div>
+        </div>
+
+        <!-- Request Simulation Tab -->
+        <div class="tab-content" id="request-tab">
+          <div class="request-form">
+            <div class="form-group">
+              <label for="request-process" data-i18n="select_process">Select Process:</label>
+              <select id="request-process" class="form-control">
+                <!-- Options generated dynamically -->
+              </select>
+            </div>
+            <div class="form-group" id="request-vector-container">
+              <label data-i18n="request_vector">Request Vector:</label>
+              <div id="request-inputs" class="vector-inputs">
+                <!-- Inputs generated dynamically -->
+              </div>
+            </div>
+            <button class="btn btn-primary" id="simulate-request" data-i18n="simulate_request">Simulate Request</button>
+          </div>
+          <div class="request-result" id="request-result" style="display: none;">
+            <!-- Request result will be displayed here -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Banking Page -->
+    <section id="banking-page" class="page">
+      <div class="page-container">
+        <div class="page-header">
+          <h1 data-i18n="banking_title">Banking Application</h1>
+          <p data-i18n="banking_subtitle">Loan Approval with Safety Guarantee</p>
+        </div>
+
+        <div class="banking-analogy">
+          <div class="analogy-card">
+            <h3 data-i18n="analogy_processes">Processes → Customers</h3>
+            <p data-i18n="analogy_processes_desc">Each customer can request multiple loan types</p>
+          </div>
+          <div class="analogy-card">
+            <h3 data-i18n="analogy_resources">Resources → Loan Types</h3>
+            <p data-i18n="analogy_resources_desc">Home, Auto, Personal loans</p>
+          </div>
+          <div class="analogy-card">
+            <h3 data-i18n="analogy_available">Available → Bank Liquidity</h3>
+            <p data-i18n="analogy_available_desc">Current available funds per loan type</p>
+          </div>
+        </div>
+
+        <div class="banking-content">
+          <div class="portfolio-section">
+            <h2 data-i18n="customer_portfolio">Customer Portfolio</h2>
+            <button class="btn btn-sm" id="load-banking-demo" data-i18n="load_demo">Load Demo Data</button>
+            <div id="banking-matrices" class="banking-display">
+              <!-- Banking matrices will be displayed here -->
+            </div>
+          </div>
+
+          <div class="loan-request-section">
+            <h2 data-i18n="new_loan_request">New Loan Request</h2>
+            <div class="form-group">
+              <label for="banking-customer" data-i18n="select_customer">Select Customer:</label>
+              <select id="banking-customer" class="form-control">
+                <option value="0">Customer 1</option>
+                <option value="1">Customer 2</option>
+                <option value="2">Customer 3</option>
+                <option value="3">Customer 4</option>
+              </select>
+            </div>
+            <div class="loan-inputs">
+              <div class="form-group">
+                <label data-i18n="home_loan">Home Loan ($):</label>
+                <input type="number" class="form-control loan-input" data-resource="0" min="0" value="0">
+              </div>
+              <div class="form-group">
+                <label data-i18n="auto_loan">Auto Loan ($):</label>
+                <input type="number" class="form-control loan-input" data-resource="1" min="0" value="0">
+              </div>
+              <div class="form-group">
+                <label data-i18n="personal_loan">Personal Loan ($):</label>
+                <input type="number" class="form-control loan-input" data-resource="2" min="0" value="0">
+              </div>
+            </div>
+            <button class="btn btn-primary" id="process-loan" data-i18n="process_loan">Process Loan Request</button>
+          </div>
+
+          <div class="loan-result" id="loan-result" style="display: none;">
+            <!-- Loan decision will be displayed here -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Settings Modal -->
+  <div class="modal" id="settings-modal" role="dialog" aria-labelledby="settings-title" aria-hidden="true">
+    <div class="modal-overlay" id="settings-overlay"></div>
+    <div class="modal-content settings-panel">
+      <div class="modal-header">
+        <h2 id="settings-title" data-i18n="settings">Settings</h2>
+        <button class="close-btn" id="close-settings" aria-label="Close settings">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="setting-group">
+          <label data-i18n="theme">Theme</label>
+          <div class="theme-options">
+            <button class="theme-btn active" data-theme="light">
+              <span class="theme-icon">☀️</span>
+              <span data-i18n="light_mode">Light</span>
+            </button>
+            <button class="theme-btn" data-theme="dark">
+              <span class="theme-icon">🌙</span>
+              <span data-i18n="dark_mode">Dark</span>
+            </button>
+            <button class="theme-btn" data-theme="high-contrast">
+              <span class="theme-icon">⚡</span>
+              <span data-i18n="high_contrast">High Contrast</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <label for="setting-language" data-i18n="language">Language</label>
+          <select id="setting-language" class="form-control">
+            <option value="en">English</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+            <option value="es">Español (Spanish)</option>
+            <option value="ar">العربية (Arabic)</option>
+          </select>
+        </div>
+
+        <div class="setting-group">
+          <label class="toggle-label">
+            <input type="checkbox" id="reduce-motion-toggle">
+            <span class="toggle-slider"></span>
+            <span data-i18n="reduce_motion">Reduce Motion</span>
+          </label>
+        </div>
+
+        <div class="setting-group">
+          <label class="toggle-label">
+            <input type="checkbox" id="low-spec-toggle">
+            <span class="toggle-slider"></span>
+            <span data-i18n="low_spec_mode">Low-Spec Mode</span>
+          </label>
+        </div>
+
+        <div class="setting-group">
+          <label for="font-size-select" data-i18n="font_size">Font Size</label>
+          <select id="font-size-select" class="form-control">
+            <option value="small" data-i18n="font_small">Small</option>
+            <option value="medium" selected data-i18n="font_medium">Medium</option>
+            <option value="large" data-i18n="font_large">Large</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" id="save-settings" data-i18n="save_settings">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+  <!-- Confetti Container -->
+  <canvas id="confetti-canvas" class="confetti-canvas"></canvas>
+
+  <!-- Theory Modal -->
+  <div class="modal-backdrop" id="theory-modal" style="display: none;">
+    <div class="modal-window" data-modal-name="theory">
+      <div class="modal-window-header">
+        <span class="modal-window-title" data-i18n="theory">Theory</span>
+        <div class="modal-window-controls">
+          <button class="modal-control-btn minimize-btn" aria-label="Minimize">−</button>
+          <button class="modal-control-btn close-modal-btn" aria-label="Close">×</button>
+        </div>
+      </div>
+      <div class="modal-window-body" id="theory-modal-content">
+        <!-- Theory content will be moved here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Simulator Modal -->
+  <div class="modal-backdrop" id="simulator-modal" style="display: none;">
+    <div class="modal-window" data-modal-name="simulator">
+      <div class="modal-window-header">
+        <span class="modal-window-title" data-i18n="simulator">Simulator</span>
+        <div class="modal-window-controls">
+          <button class="modal-control-btn minimize-btn" aria-label="Minimize">−</button>
+          <button class="modal-control-btn close-modal-btn" aria-label="Close">×</button>
+        </div>
+      </div>
+      <div class="modal-window-body" id="simulator-modal-content">
+        <!-- Simulator content will be moved here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Banking Modal -->
+  <div class="modal-backdrop" id="banking-modal" style="display: none;">
+    <div class="modal-window" data-modal-name="banking">
+      <div class="modal-window-header">
+        <span class="modal-window-title" data-i18n="banking">Banking Application</span>
+        <div class="modal-window-controls">
+          <button class="modal-control-btn minimize-btn" aria-label="Minimize">−</button>
+          <button class="modal-control-btn close-modal-btn" aria-label="Close">×</button>
+        </div>
+      </div>
+      <div class="modal-window-body" id="banking-modal-content">
+        <!-- Banking content will be moved here -->
+      </div>
+    </div>
+  </div>
+
+  <script src="i18n.js"></script>
+  <script src="banker-algorithm.js"></script>
+  <script src="storage.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
